@@ -1,18 +1,20 @@
 package Entidades;
 
+import android.graphics.Bitmap;
+
 public class Contato {
 
-    private String foto;
+    private Bitmap foto;
     private String nome;
     private String email;
     private String telefone;
     private String endereco;
 
-    public String getFoto() {
+    public Bitmap getFoto() {
         return foto;
     }
 
-    public void setFoto(String foto) {
+    public void setFoto(Bitmap foto) {
         this.foto = foto;
     }
 

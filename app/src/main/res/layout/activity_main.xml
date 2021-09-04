@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <ListView
+        android:id="@+id/lista"
         android:layout_width="395dp"
         android:layout_height="632dp"
         android:layout_marginStart="8dp"
@@ -19,13 +20,11 @@
         android:id="@+id/btAdd"
         android:layout_width="70dp"
         android:layout_height="68dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:onClick="addContato"
         android:text="+"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_dynamic" />
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

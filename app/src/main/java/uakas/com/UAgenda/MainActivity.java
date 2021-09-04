@@ -21,14 +21,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        lista = findViewById(R.id._dynamic); //Oque faz aki? e porque esse lista vermelho?
+        lista = findViewById(R.id.lista); //Oque faz aki? e porque esse lista vermelho?
+        //estava vermelho pq ele ia na main(tela princiipal) buscar algo chamado lista mas nao existia essa tal de lista
         atualiza(); //atualizar a lista
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent it = new Intent(getApplicationContext(),Segunda.class);
-                it.putExtra("Contato", (Contato) Dados.getLista().get(i));//oque está acontecendo que ele nao está pegando numero inteiro?
+      //          it.putExtra("Contato", (Contato) Dados.getLista().get(i));//oque está acontecendo que ele nao está pegando numero inteiro?
 
                 Contato c=(Contato)Dados.getLista().get(i);
                 startActivityForResult(it,201);
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addContato(View view) {
         Intent it = new Intent(this, Segunda.class);
-        startActivityForResult(it,0,null);
+        startActivityForResult(it,100);
     }
 
     @Override
