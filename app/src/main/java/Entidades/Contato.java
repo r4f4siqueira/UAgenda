@@ -2,19 +2,35 @@ package Entidades;
 
 import android.graphics.Bitmap;
 
-public class Contato {
+import java.io.Serializable;
+import java.util.Objects;
 
-    private Bitmap foto;
+public class Contato implements Serializable {
+
+    private Integer id;
+    private byte[] foto;
     private String nome;
     private String email;
     private String telefone;
     private String endereco;
 
-    public Bitmap getFoto() {
+    public String toString(){
+        return nome+ " - " + telefone;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public byte[] getFoto() {
         return foto;
     }
 
-    public void setFoto(Bitmap foto) {
+    public void setFoto(byte[] foto) {
         this.foto = foto;
     }
 
@@ -48,5 +64,13 @@ public class Contato {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contato contato = (Contato) o;
+        return Objects.equals(id, contato.id);
     }
 }

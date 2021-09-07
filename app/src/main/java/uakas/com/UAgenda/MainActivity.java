@@ -16,6 +16,7 @@ import crud.Dados;
 
 public class MainActivity extends AppCompatActivity {
     private ListView lista;
+    ArrayAdapter<String>adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent it = new Intent(getApplicationContext(),Segunda.class);
-      //          it.putExtra("Contato", (Contato) Dados.getLista().get(i));//oque está acontecendo que ele nao está pegando numero inteiro?
+                it.putExtra("Contato",(Contato)Dados.getLista().get(i));//oque está acontecendo que ele nao está pegando numero inteiro?
 
                 Contato c=(Contato)Dados.getLista().get(i);
                 startActivityForResult(it,201);
@@ -44,12 +45,16 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
     private void atualiza(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,Dados.getLista());
-        lista.setAdapter(adapter);
+        if(adapter==null){
+            adapter= new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,Dados.getLista());
+            lista.setAdapter(adapter);
+        }
+        else {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     public void addContato(View view) {
@@ -60,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==201){
+        if(requestCode == 201){
             if (requestCode==RESULT_OK){
+                atualiza();
                 Toast.makeText(this,"Salvo",Toast.LENGTH_SHORT).show();//mostra uma pequena mensagem de que foi salvo
             }
             else{
