@@ -1,10 +1,14 @@
 package uakas.com.UAgenda;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.camera2.CameraMetadata;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
@@ -58,12 +62,12 @@ public class Segunda extends AppCompatActivity {
     }
     public void salvar(View view){
         contato.setNome(nome.getText().toString());
-        contato.setNome(telefone.getText().toString());
-        contato.setNome(email.getText().toString());
-        contato.setNome(endereco.getText().toString());
+        contato.setTelefone(telefone.getText().toString());
+        contato.setEmail(email.getText().toString());
+        contato.setEndereco(endereco.getText().toString());
         Dados.salvar(contato);
         setResult(RESULT_OK);
-        finish();
+        onBackPressed();
     }
     public void capturaImg(View view){
         Intent it = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -71,9 +75,12 @@ public class Segunda extends AppCompatActivity {
             startActivityForResult(it, CameraMetadata.REQUEST_AVAILABLE_CAPABILITIES_BACKWARD_COMPATIBLE);
     }
 
-    /*public void importa(View view){
+    public void importa(View view){
+        Intent it = new Intent(Intent.ACTION_PICK);
+        it.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+        startActivityForResult(it,201,null);
 
-    }*/
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -88,5 +95,28 @@ public class Segunda extends AppCompatActivity {
                 foto.setImageBitmap(img);
             }
         }
+        if(requestCode == 201){
+            if(resultCode==RESULT_OK){
+                Uri uri  = data.getData();
+                String projecao[]={
+                        ContactsContract.CommonDataKinds.Contactables.DISPLAY_NAME,
+                        ContactsContract.CommonDataKinds.Phone.NUMBER,
+                        ContactsContract.CommonDataKinds.Email.ADDRESS,
+                        ContactsContract.CommonDataKinds.Photo.PHOTO,
+                        ContactsContract.CommonDataKinds.SipAddress.SIP_ADDRESS
+                };
+
+                Cursor cursor = getContentResolver().query(uri,projecao,null,null,null);
+                //aki é para pegar os dados mas nao estou conseguindo fazer funcionar
+                if (cursor!=null && cursor.moveToFirst()) {
+                    nome.setText(cursor.getString(0));
+                    telefone.setText(cursor.getString(1));
+                    email.setText(cursor.getString(2));
+                    foto.setImageBitmap(BitmapFactory.decodeFile(cursor.getString(3)));
+                    endereco.setText(cursor.getString(4));
+                }
+            }
+        }
+
     }
 }
